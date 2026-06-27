@@ -14,7 +14,8 @@
     "cors": "^2.8.6",
     "exceljs": "^4.4.0",
     "express": "^5.2.1",
-    "google-auth-library": "^10.9.0",
+    "google-auth-library": "^9.15.1",
+    "google-spreadsheet": "^4.1.1",
     "sqlite3": "^6.0.1"
   }
 }
