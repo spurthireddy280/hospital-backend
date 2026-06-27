@@ -4,8 +4,7 @@ const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { JWT } = require('google-auth-library');
 
 // Load the JSON file you downloaded from Google Cloud
-const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
-
+const creds = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
 const app = express();
 const PORT = 3000;
 
