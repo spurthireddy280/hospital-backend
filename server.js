@@ -61,4 +61,8 @@ if (!process.env.VERCEL) {
 }
 
 // Export the app so Vercel's serverless environment can use it
+<<<<<<< HEAD
 module.exports = app;
+=======
+module.exports = app;
+>>>>>>> 2b381b8557ca8916f50c80c3e70bafd082c1991d
