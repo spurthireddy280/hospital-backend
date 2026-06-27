@@ -52,7 +52,8 @@ app.post('/', async (req, res) => {
 });
 
 // 4. Handle server execution based on environment
-if (process.env.NODE_ENV !== 'production') {
+// Vercel automatically sets process.env.VERCEL to "1".
+if (!process.env.VERCEL) {
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
         console.log(`Google Sheets Backend running locally on http://localhost:${PORT}`);
