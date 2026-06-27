@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const { JWT } = require('google-auth-library');
+const { GoogleAuth } = require('google-auth-library');
 
 const app = express();
 
@@ -11,9 +11,11 @@ app.use(express.json());
 // 1. Authenticate with Google (Parsing the Vercel Environment Variable)
 const creds = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
 
-const serviceAccountAuth = new JWT({
-    email: creds.client_email,
-    key: creds.private_key,
+const serviceAccountAuth = new GoogleAuth({
+    credentials: {
+        client_email: creds.client_email,
+        private_key: creds.private_key,
+    },
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
@@ -61,8 +63,4 @@ if (!process.env.VERCEL) {
 }
 
 // Export the app so Vercel's serverless environment can use it
-<<<<<<< HEAD
 module.exports = app;
-=======
-module.exports = app;
->>>>>>> 2b381b8557ca8916f50c80c3e70bafd082c1991d
