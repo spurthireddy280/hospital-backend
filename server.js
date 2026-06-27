@@ -3,22 +3,21 @@ const cors = require('cors');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { JWT } = require('google-auth-library');
 
-// Load the JSON file you downloaded from Google Cloud
-const creds = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
 const app = express();
-const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
 
-// 1. Authenticate with Google
+// 1. Authenticate with Google (Parsing the Vercel Environment Variable)
+const creds = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
+
 const serviceAccountAuth = new JWT({
     email: creds.client_email,
     key: creds.private_key,
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 
-// 2. Connect to your specific Google Sheet (Paste your Sheet ID here)
+// 2. Connect to your specific Google Sheet
 const doc = new GoogleSpreadsheet('14_zM0FsBCs_fFV6wDvIcykAqfFiSY4v27MODeN3fGvc', serviceAccountAuth);
 
 // 3. The API Route receiving data from React
@@ -41,7 +40,6 @@ app.post('/', async (req, res) => {
             Village: village,
             District: district,
             State: state
-
         });
 
         console.log(`Successfully added appointment for ${name}`);
@@ -53,6 +51,13 @@ app.post('/', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Google Sheets Backend running on http://localhost:${PORT}`);
-});
+// 4. Handle server execution based on environment
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Google Sheets Backend running locally on http://localhost:${PORT}`);
+    });
+}
+
+// Export the app so Vercel's serverless environment can use it
+module.exports = app;
