@@ -14,7 +14,8 @@ const creds = JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON);
 const serviceAccountAuth = new GoogleAuth({
     credentials: {
         client_email: creds.client_email,
-        private_key: creds.private_key,
+        // This regex ensures Vercel reads the newline characters perfectly
+        private_key: creds.private_key.replace(/\\n/g, '\n'), 
     },
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
